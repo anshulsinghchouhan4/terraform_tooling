@@ -15,4 +15,6 @@ provider "azurerm" {
   # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
   # Example using service principal:
   features {}
+  resource_provider_registrations = "none"
 }
+
