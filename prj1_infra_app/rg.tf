@@ -1,5 +1,5 @@
-resource "azurerm_resource_group" "rg" {
-  name     = "rg-${local.resource-with-dash}"
+resource "azurerm_resource_group" "this" {
+  name     = format("rg-%s", local.resource_suffix_kebabcase)
   location = var.location
   tags     = local.tags
 }

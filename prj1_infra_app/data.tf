@@ -1,11 +1,13 @@
+data "azurerm_client_config" "current" {}
 
-# data "terraform_remote_state" "network" {
-#   backend {
-#     resource_group_name  = "<your_network_resource_group_name>"
-#     storage_container_name = "<your_network_state_container_name>"
-#     access_key           = "<your_storage_account_access_key>"
-
-#   }
-
-#   vnet_id = data.terraform_remote_state.network.outputs.vnet_id
-# }
+data "terraform_remote_state" "network" {
+  backend = "azurerm"
+  config = {
+    storage_account_name = var.storage_account_name
+    container_name       = var.storage_account_container_name
+    key                  = "network/terraform.state"
+    use_azuread_auth     = true
+    subscription_id      = data.azurerm_client_config.current.subscription_id
+    tenant_id            = data.azurerm_client_config.current.tenant_id
+  }
+}

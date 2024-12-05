@@ -1,18 +1,10 @@
-resource "azurerm_app_service_plan" "example" {
-  name                = "prj1-${var.app_name}-asp-${local.resource-with-dash}"
-  location             = var.location
-  resource_group_name  = azurerm_resource_group.rg.name
-  sku {
-    tier = "Basic"
-    size = "B1"
-  }
-  tags = local.tags
-}
-
-resource "azurerm_app_service" "example" {
-  name                  = formatstring("prj1-${var.app_name}-app-${local.kebab_case_suffix}")
-  location             = var.location
-  resource_group_name  = azurerm_resource_group.example.name
-  app_service_plan_id   = azurerm_app_service_plan.example.id 
-  tags = local.tags
+module "app_service" {
+  source                         = "./modules/app_service"
+  resource_group_name            = azurerm_resource_group.this.name
+  location                       = azurerm_resource_group.this.location
+  resource_suffix_kebabcase      = local.resource_suffix_kebabcase
+  app_service_plan_sku           = var.app_service_plan_sku
+  app_service_subnet_id          = local.app_service_subnet_id
+  paas_subnet_id                 = local.paas_subnet_id
+  tags                           = local.tags
 }
